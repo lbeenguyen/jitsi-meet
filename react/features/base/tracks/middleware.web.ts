@@ -23,6 +23,7 @@ import {
     TRACK_UPDATED
 } from './actionTypes';
 import {
+    openAllowToggleCameraDialog,
     setCameraFacingMode,
     showNoDataFromSourceVideoError,
     toggleScreensharing,
@@ -147,10 +148,13 @@ function _addSetCameraFacingModeListener(conference: IJitsiConference) {
         JitsiConferenceEvents.ENDPOINT_MESSAGE_RECEIVED,
         (...args: any) => {
             if (args && args.length >= 2) {
-                const [ , eventData ] = args;
+                const [ sender, eventData ] = args;
 
                 if (eventData.name === CAMERA_FACING_MODE_MESSAGE) {
-                    APP.store.dispatch(setCameraFacingMode(eventData.facingMode));
+                    APP.store.dispatch(openAllowToggleCameraDialog(
+                        /* onAllow */ () => APP.store.dispatch(setCameraFacingMode(eventData.facingMode)),
+                        /* initiatorId */ sender._id
+                    ));
                 }
             }
         }

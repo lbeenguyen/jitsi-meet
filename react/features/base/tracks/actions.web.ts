@@ -13,6 +13,7 @@ import { toggleScreenshotCaptureSummary } from '../../screenshot-capture/actions
 import { isScreenshotCaptureEnabled } from '../../screenshot-capture/functions';
 import { AudioMixerEffect } from '../../stream-effects/audio-mixer/AudioMixerEffect';
 import { getCurrentConference } from '../conference/functions';
+import { openDialog } from '../dialog/actions';
 import { JitsiTrackErrors, JitsiTrackEvents } from '../lib-jitsi-meet';
 import { setScreenshareMuted } from '../media/actions';
 import { MEDIA_TYPE, VIDEO_TYPE } from '../media/constants';
@@ -22,6 +23,7 @@ import {
     replaceLocalTrack,
     toggleCamera
 } from './actions.any';
+import AllowToggleCameraDialog from './components/web/AllowToggleCameraDialog';
 import {
     createLocalTracksF,
     getLocalDesktopTrack,
@@ -300,4 +302,18 @@ export function setCameraFacingMode(facingMode: string | undefined) {
             dispatch(toggleCamera());
         }
     };
+}
+
+/**
+ * Signals to open the permission dialog for toggling camera remotely.
+ *
+ * @param {Function} onAllow - Callback to be executed if permission to toggle camera was granted.
+ * @param {string} initiatorId - The participant id of the requester.
+ * @returns {Object} - The open dialog action.
+ */
+export function openAllowToggleCameraDialog(onAllow: Function, initiatorId: string) {
+    return openDialog(AllowToggleCameraDialog, {
+        onAllow,
+        initiatorId
+    });
 }
