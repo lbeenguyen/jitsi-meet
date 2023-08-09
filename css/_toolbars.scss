@@ -85,8 +85,10 @@
     max-width: 100%;
     pointer-events: all;
     border-radius: 6px;
+    width: 100%;
 
     .toolbox-content-items {
+        width: 100%;
         @include ltr;
     }
 }

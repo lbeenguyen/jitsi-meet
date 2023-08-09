@@ -1,0 +1,3 @@
+sass css/main.scss css/all.bundle.css && cleancss --skip-rebase css/all.bundle.css > css/all.css && rm css/all.bundle.css
+
+sass css/main.scss:css/all.css --watch --style compressed
